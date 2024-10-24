@@ -1,0 +1,7 @@
+{"web":{"client_id":"766944467840-vofa2l4n0frfnh4ji0633610v65kqqt5.apps.googleusercontent.com",
+"project_id":"pedidos-439603",
+"auth_uri":"https://accounts.google.com/o/oauth2/auth",
+"token_uri":"https://oauth2.googleapis.com/token",
+"auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs",
+"client_secret":"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",
+"javascript_origins":["http://localhost:3001"]}}

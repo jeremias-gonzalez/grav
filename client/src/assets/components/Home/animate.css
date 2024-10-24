@@ -1,0 +1,10 @@
+.animate__fadeInUp{
+    --animate-duration: 2s;
+}
+.svg-hover {
+    transition: transform 0.3s ease; /* Transición suave */
+  }
+  
+  .svg-hover:hover {
+    transform: translateX(5px); /* Mueve el SVG 5 píxeles a la derecha */
+  }
