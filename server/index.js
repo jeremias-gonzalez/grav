@@ -1,6 +1,6 @@
-require('dotenv').config();
 const express = require('express');
 const { google } = require('googleapis');
+const keys = require('./credential.json');
 const cors = require('cors');
 
 const app = express();
@@ -9,11 +9,11 @@ const PORT = 3001;
 app.use(express.json());
 app.use(cors({ origin: 'http://localhost:5173' }));
 
-// Autenticación con Google Sheets usando variables de entorno
+// Autenticación con Google Sheets
 const client = new google.auth.JWT(
-  process.env.GOOGLE_CLIENT_EMAIL,
+  keys.client_email,
   null,
-  process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+  keys.private_key,
   ['https://www.googleapis.com/auth/spreadsheets']
 );
 
@@ -26,11 +26,16 @@ client.authorize(function (err, tokens) {
   console.log('Connected to Google Sheets');
 });
 
+// Ruta para la raíz
+app.get('/', (req, res) => {
+  res.send('Servidor funcionando correctamente');
+});
+
 // Ruta para obtener datos de Google Sheets
 app.get('/api/sheet-data', async (req, res) => {
   const gsapi = google.sheets({ version: 'v4', auth: client });
   const options = {
-    spreadsheetId: process.env.SPREADSHEET_ID, // Usar variable de entorno para el ID de la hoja
+    spreadsheetId: '14JIBAQ90WU7_3g8RBe11B7PC-G-7kzUx-v_87P3x2Yw', // Coloca aquí tu ID de Google Sheets
     range: 'Products!A2:E',
   };
 
@@ -38,6 +43,7 @@ app.get('/api/sheet-data', async (req, res) => {
     let data = await gsapi.spreadsheets.values.get(options);
     let rows = data.data.values;
 
+    // Imprimir data para depuración
     console.log('Data from Google Sheets:', data);
 
     if (!rows || rows.length === 0) {
@@ -54,6 +60,7 @@ app.get('/api/sheet-data', async (req, res) => {
     });
   }
 });
+
 // Ruta para agregar un pedido
 app.post('/api/add-order', async (req, res) => {
   const {
@@ -100,6 +107,7 @@ app.post('/api/add-order', async (req, res) => {
     });
   }
 });
+
 
 
 
